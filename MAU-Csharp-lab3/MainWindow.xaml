@@ -5,8 +5,161 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MAU_Csharp_lab3"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="BMI and savings calculator" Height="800" Width="900">
+    <Window.Resources>
+        <Style TargetType="RadioButton">
+            <Setter Property="VerticalContentAlignment" Value="center" />
+        </Style>
+    </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+        </Grid.RowDefinitions>
 
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+            <GroupBox Header="BMI Calculator" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,10,10">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Name" MinWidth="100"/>
+                        <TextBox x:Name="tbx_name" MinWidth="150"  Margin="2,2,2,2" TextChanged="NameTbxChanged"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label x:Name="lbl_height" Content="Height (cm)" MinWidth="100"/>
+                        <TextBox x:Name="tbx_height" MinWidth="150" HorizontalAlignment="Right" Margin="2,2,2,2" TextChanged="HeightTbxChanged"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label x:Name="lbl_weight" Content="Weight (kg)" MinWidth="100"/>
+                        <TextBox x:Name="tbx_weight" MinWidth="150" HorizontalAlignment="Right" Margin="2,2,2,2" TextChanged="WeightTbxChanged"/>
+                    </StackPanel>
+                    <Button x:Name="btn_calculateBMI" Content="Calculate BMI" Width="110" Height="25" HorizontalAlignment="Center" Margin="10" Click="btn_CalculateBMI_Click" Grid.ColumnSpan="2" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Units" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Margin="10,0,10,10" Height="100">
+                <StackPanel>
+                    <RadioButton x:Name="rbtn_metric" Content="Metric (kg, cm)" Grid.Row="2" Grid.Column="3" Margin="5" VerticalAlignment="top" Click="rbtn_Metric_Click"/>
+                    <RadioButton x:Name="rbtn_imperial" Content="Imperial (ft, lbs)" Grid.Row="3" Grid.Column="3" Margin="5" VerticalAlignment="top" Click="rbtn_Imperial_Click"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+
+
+
+        <GroupBox Name="grpbx_BMIResults" Header="" Grid.Row="3" Grid.Column="1" Width="400" Grid.ColumnSpan="2" HorizontalAlignment="left" Grid.RowSpan="2">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="BMI" MinWidth="110"/>
+                    <Label x:Name="lbl_BMI" Width="65" HorizontalAlignment="Right" Margin="2,2,2,2"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Weight category" MinWidth="110" Grid.Column="1"/>
+                    <Label x:Name="lbl_weightCategory" Width="183" HorizontalAlignment="Right" Grid.ColumnSpan="2"  Margin="2,2,2,2"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Normal weight" Grid.Row="6" Grid.Column="1" Width="400" HorizontalAlignment="Left" Margin="0,20">
+            <StackPanel>
+                <Label Content="Normal BMI is between 18.50 and 24.9" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+                <Label Name="lbl_normalWeight" Content="" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Savings plan" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Margin="10,10,10,10">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Initial deposit" Width="150" />
+                    <TextBox x:Name="tbx_initialDeposit" TextChanged="InitialChanged" MinWidth="80"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Monthly deposit" Width="150"/>
+                    <TextBox x:Name="tbx_monthlyDeposit" TextChanged="MonthlyChanged" MinWidth="80" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Period (years)" Width="150"/>
+                    <TextBox x:Name="tbx_period" MinWidth="80" TextChanged="PeriodChanged"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Growth (or interest) in % " Width="150" />
+                    <TextBox x:Name="tbx_growth" TextChanged="GrowthChanged" MinWidth="80" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Fees in %" Width="150"/>
+                    <TextBox x:Name="tbx_fees" TextChanged="FeesChanged" MinWidth="80"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Future value:" Grid.Row="4" Grid.Column="2" Margin="10">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Amount paid" FontWeight="Normal" Width="100"/>
+                    <Label x:Name="lbl_amountPaid" MinWidth="140"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Amount earned" FontWeight="Normal" Width="100"/>
+                    <Label x:Name="lbl_amountEarned" MinWidth="140"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Final balance" FontWeight="Normal" Width="100"/>
+                    <Label x:Name="lbl_finalBalance" MinWidth="140"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Total fees" FontWeight="Normal" Width="100"/>
+                    <Label x:Name="lbl_totalFees" MinWidth="140"/>
+                </StackPanel>
+
+            </StackPanel>
+        </GroupBox>
+
+        <Button x:Name="btn_calculateSavings" Content="Calculate savings" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" Height="30"  Width="110" Click="btn_CalculateSavings_Click" Margin="100,10,10,10"/>
+
+        <GroupBox Header="BMR Calculator" Grid.Row="10" Grid.Column="1" Width="480">
+            <StackPanel Orientation="Horizontal">
+                <GroupBox Header="Gender" Margin="10" Width="170">
+                    <StackPanel>
+                        <RadioButton x:Name="rbtn_female" Content="Female" Margin="10" Click="rbtn_female_Click"/>
+                        <RadioButton x:Name="rbtn_male" Content="Male" Margin="10,0,0,5" Click="rbtn_male_Click" />
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Age:" Margin="10,0,0,0" Width="40"/>
+                            <TextBox x:Name="tbx_age" Width="60" />
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Weekly activity level" Margin="10">
+                    <StackPanel>                        
+                        <RadioButton x:Name="rbtn_lightly" Content="Lightly active (1 to 3 times)" Margin="10"/>
+                        <RadioButton x:Name="rbtn_moderate" Content="Moderately active (3 to 5 times)" Margin="10" />
+                        <RadioButton x:Name="rbtn_very" Content="Very active (6 to 7 times)" Margin="10"/>
+                        <RadioButton x:Name="rbtn_extra" Content="Extra active, hard excersizes or job)" Margin="10"/>
+                        <RadioButton x:Name="rbtn_sedentary" Content="Sedentary (little or no excersize)" Margin="10"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </GroupBox>
+
+        <Button x:Name="btn_calculateBMR" Content="Calculate BMR" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Center" Width="150" Height="30" Margin="0,5" Click="btn_CalculateBMR_Click"/>
+
+        <Label x:Name="lbl_BMR_results" Grid.Row="10" Grid.Column="2" />
     </Grid>
 </Window>
