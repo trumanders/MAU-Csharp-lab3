@@ -11,13 +11,12 @@ namespace MAU_Csharp_lab3
         const double IMPERIAL_CONSTANT = 703.0;
         const double NORMAL_BMI_LOW = 18.5;
         const double NORMAL_BMI_HIGH = 24.9;
-        const int CONVERT_TO_INCH = 12;
 
         protected double BMI { get; set; }
         public string Name { get; set; }        
         public double Height { get; set; }
         public double Weight { get; set; }
-        protected bool isMetric { get; set; }
+        //public bool IsMetric { get; set;  }
 
 
         /// <summary>
@@ -43,8 +42,7 @@ namespace MAU_Csharp_lab3
             if (isMetric)
                 BMI = Weight / Math.Pow(Height / 100, 2);
             else
-            {                
-                Height *= CONVERT_TO_INCH;
+            {
                 BMI = (IMPERIAL_CONSTANT * Weight) / Math.Pow(Height,2);
             }
             return BMI;
