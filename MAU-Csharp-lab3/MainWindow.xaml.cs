@@ -23,9 +23,10 @@ namespace MAU_Csharp_lab3
     {
         private SavingsCalculator savingsCalculator = new SavingsCalculator();
         private BMRCalculator calculator = new BMRCalculator();
-        private bool isMetric;
+        private bool isMetric = true;
         private const int FOOT_TO_INCH = 12;
-        private bool allowBMR = false;
+        private bool allowBMR = false; /* Used to ensure that the BMR button is not enabled
+                                          util BMI-button is clicked after editing BMI info! */
 
 
         public MainWindow()
@@ -35,58 +36,74 @@ namespace MAU_Csharp_lab3
         }
 
 
+        /// <summary>
+        /// Set the necessary default UI settings on application start.
+        /// </summary>
         private void SetUI()
         {
-            btn_calculateBMI.IsEnabled = false;
-            btn_calculateBMR.IsEnabled = false;
-            rbtn_metric.IsChecked = true;
-            rbtn_female.IsChecked = true;
-            rbtn_moderate.IsChecked = true; 
-            isMetric = true;
-            tbx_height.IsEnabled = false;
-            btn_calculateSavings.IsEnabled = false;
-            SetGrpbx_BMI_results_header("Results for: Noname");
-            //rbtn_sedentary.IsChecked = true;
-            //rbtn_female.IsChecked = true;
-           
+            btn_calculateBMI.IsEnabled = false;     // Disable calculate BMI-button.
+            btn_calculateBMR.IsEnabled = false;     // Disable calculate BMR-button.
+            btn_calculateSavings.IsEnabled = false; // Disable calculate savings-button.
+            rbtn_metric.IsChecked = true;           // Select metric unit.
+            rbtn_female.IsChecked = true;           // Select gender: female.
+            rbtn_moderate.IsChecked = true;         // Select activation level.            
+            tbx_height.IsEnabled = false;           // Disable first height textbox (since imperial is not selected)            
+            SetGrpbx_BMI_results_header("Results for: Noname");     // Set detfault BMI-results header.            
         }
 
 
         /* BMI */
 
-        // Set the GroupBox header for BMI results
+        /// <summary>
+        /// Set the GroupBox header for BMI results
+        /// </summary>
+        /// <param name="header">The string used as header for the BMI results group box.</param>
         private void SetGrpbx_BMI_results_header(string header)
         {
             grpbx_BMIResults.Header = header;
         }
 
 
-        // Calculate BMI - button
+        /// <summary>
+        /// Exectutes actions when Calculate BMI-button is clicked. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void btn_CalculateBMI_Click(object sender, RoutedEventArgs e)
         {
             SetName();
             SetHeight();
             SetWeight();
 
-            // Set the name to the results group box
+            // Set the name to the results group box.
             SetGrpbx_BMI_results_header($"Results for: {calculator.Name}");
-                        
-            // Call BMI calculator and output bmi
+
+            // Call BMI calculator and output bmi info.
             lbl_BMI.Content = $"{calculator.CalculateBMI(isMetric),2:F}";
 
-            // Set the weight class output
+            // Calculate and output the weight class info.
             lbl_weightCategory.Content = calculator.CalculateWeightClass();
 
             // Set "normal weights" text output
-            string weightUnit;
-            if (isMetric) { weightUnit = "kg"; }
-            else { weightUnit = "lb"; }
-            lbl_normalWeight.Content = $"Normal weight should be between {calculator.GetNormalWeights(isMetric, true),2:F} and {calculator.GetNormalWeights(isMetric, false),2:F} {weightUnit}.";
+            SetNormalWeightsOutput();
 
             // Run Toggle method for BMR-button, to enable it if all BMR-info are entered.
             allowBMR = true;
             ToggleBMRButton();
             lbx_BMR_results.ItemsSource = null;
+        }
+
+
+        /// <summary>
+        /// Output the lowest and highest normal weights.
+        /// </summary>
+        private void SetNormalWeightsOutput()
+        {
+            string weightUnit;
+            if (isMetric) { weightUnit = "kg"; }
+            else { weightUnit = "lb"; }
+            lbl_normalWeight.Content = $"Normal weight should be between {calculator.GetNormalWeights(isMetric, true),2:F}" +
+                $" and {calculator.GetNormalWeights(isMetric, false),2:F} {weightUnit}.";
         }
 
 
@@ -223,7 +240,7 @@ namespace MAU_Csharp_lab3
             if (isMetric)
                 calculator.Height = Convert.ToDouble(tbx_height2.Text);
             else
-                calculator.Height = (FOOT_TO_INCH * Convert.ToDouble(tbx_height.Text)) + Convert.ToDouble(tbx_height2.Text);            
+                calculator.Height = FOOT_TO_INCH * Convert.ToDouble(tbx_height.Text) + Convert.ToDouble(tbx_height2.Text);
         }
 
 
@@ -253,6 +270,10 @@ namespace MAU_Csharp_lab3
             return true;
         }
 
+
+        /// <summary>
+        /// Check if required BMI-input is entered and set the calculate BMI-button.
+        /// </summary>
         private void ToggleBMIButton()
         {
             if (IsAllBmiInfoEntered())
@@ -260,7 +281,7 @@ namespace MAU_Csharp_lab3
             else btn_calculateBMI.IsEnabled = false;
         }
 
-        
+
         /* BMR calculator */
 
         /// <summary>
@@ -274,7 +295,7 @@ namespace MAU_Csharp_lab3
             // Set age
             calculator.SetAge(Convert.ToInt32(tbx_age.Text));
             lbx_BMR_results.ItemsSource = null;
-            lbx_BMR_results.ItemsSource = calculator.GetBMRStringOutput(isMetric); 
+            lbx_BMR_results.ItemsSource = calculator.GetBMRStringOutput(isMetric);
         }
 
 
@@ -368,6 +389,9 @@ namespace MAU_Csharp_lab3
         }
 
 
+        /// <summary>
+        /// Check if age input is valid and enable BMR-button IF BMI-section allows it.
+        /// </summary>
         private void ToggleBMRButton()
         {
             if (tbx_age.Text == "" || !Int32.TryParse(tbx_age.Text, out int age) || age <= 0)
@@ -375,10 +399,17 @@ namespace MAU_Csharp_lab3
             else if (allowBMR)
                 btn_calculateBMR.IsEnabled = true;
         }
-        
+
 
 
         /* SAVINGS CALCULATOR */
+
+        /// <summary>
+        /// Execute actions when calculate savings-button is clicked. Call the method to set the instance
+        /// variables based on the user input. Call the calculation methods and output the results.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_CalculateSavings_Click(object sender, RoutedEventArgs e)
         {
             // Send user input and set instance variables

@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MAU_Csharp_lab3"
         mc:Ignorable="d"
-        Title="BMI and savings calculator" Height="800" Width="1000">
+        Title="BMI and savings calculator" Height="750" Width="1000"
+        ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="RadioButton">
             <Setter Property="VerticalContentAlignment" Value="center" />
         </Style>
     </Window.Resources>
+
+    <!-- Set the grid for all the grop boxes and listbox -->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10" />
@@ -28,10 +31,12 @@
             <RowDefinition Height="10" />
         </Grid.RowDefinitions>
 
-        
-        
+        <!-- BMI calculator and Units - horizontal stack panel -->
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-            <GroupBox Header="BMI Calculator" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,10,18">
+            <GroupBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,10,18">
+                <GroupBox.Header>
+                    <TextBlock FontWeight="Bold">BMI calculator</TextBlock>
+                </GroupBox.Header>
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Name" MinWidth="100"/>
@@ -58,29 +63,33 @@
             </GroupBox>
         </StackPanel>
 
-        
-        
-        <GroupBox Name="grpbx_BMIResults" Header="" Grid.Row="2" Grid.Column="1" Width="400" HorizontalAlignment="left" Margin="0,0,0,15">
+
+        <!-- BMI results groupbox -->
+        <GroupBox Name="grpbx_BMIResults" Header="" Grid.Row="2" Grid.Column="1" Width="400" HorizontalAlignment="left" Margin="0,0,0,15" FontWeight="bold">
+           
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="BMI" MinWidth="110"/>
-                    <Label x:Name="lbl_BMI" Width="65" HorizontalAlignment="Right" Margin="2"/>
+                    <Label Content="BMI" MinWidth="110" FontWeight="Normal"/>
+                    <Label x:Name="lbl_BMI" Width="65" HorizontalAlignment="Right" Margin="2" FontWeight="Normal"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Weight category" MinWidth="110" Grid.Column="1"/>
-                    <Label x:Name="lbl_weightCategory" Width="183" HorizontalAlignment="Right" Grid.ColumnSpan="2"  Margin="2"/>
+                    <Label Content="Weight category" MinWidth="110" Grid.Column="1" FontWeight="Normal"/>
+                    <Label x:Name="lbl_weightCategory" Width="183" HorizontalAlignment="Right" Grid.ColumnSpan="2"  Margin="2" FontWeight="Normal"/>
                 </StackPanel>
-                <Label Content="Normal BMI is between 18.50 and 24.9" HorizontalAlignment="left" Margin="15"/>
-                <Label Name="lbl_normalWeight" Content="" Margin="15,0"/>
+                <Label Content="Normal BMI is between 18.50 and 24.9" HorizontalAlignment="left" Margin="15" FontWeight="Normal"/>
+                <Label Name="lbl_normalWeight" Content="" Margin="15,0" FontWeight="Normal"/>
             </StackPanel>
         </GroupBox>
 
-        
-        
-        <GroupBox Header="Savings plan" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,10,10">
+
+        <!-- Savings plan groupbox -->
+        <GroupBox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,10,10">
+            <GroupBox.Header>
+                <TextBlock FontWeight="Bold">Savings plan</TextBlock>
+            </GroupBox.Header>
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Initial deposit" Width="150" />
+                    <Label Content="Initial deposit" Width="150"  />
                     <TextBox x:Name="tbx_initialDeposit" TextChanged="InitialChanged" MinWidth="80"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
@@ -101,33 +110,41 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        
-        
 
-        <GroupBox Header="Future value:" Grid.Row="2" Grid.Column="2" Margin="10,10,10,15">
+
+        <!-- Savings results groupbox -->
+        <GroupBox Grid.Row="2" Grid.Column="2" Margin="10,10,10,15" FontWeight="Bold" >
+            <GroupBox.Header>
+                <TextBlock FontWeight="Bold">Future value</TextBlock>
+            </GroupBox.Header>
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Amount paid" FontWeight="Normal" Width="100"/>
-                    <Label x:Name="lbl_amountPaid" MinWidth="140"/>
+                    <Label Content="Amount paid" FontWeight="Normal" Width="100" />
+                    <Label x:Name="lbl_amountPaid" MinWidth="140"  FontWeight="Normal"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Amount earned" FontWeight="Normal" Width="100"/>
-                    <Label x:Name="lbl_amountEarned" MinWidth="140"/>
+                    <Label x:Name="lbl_amountEarned" MinWidth="140"  FontWeight="Normal"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Final balance" FontWeight="Normal" Width="100"/>
-                    <Label x:Name="lbl_finalBalance" MinWidth="140"/>
+                    <Label x:Name="lbl_finalBalance" MinWidth="140"  FontWeight="Normal"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Total fees" FontWeight="Normal" Width="100"/>
-                    <Label x:Name="lbl_totalFees" MinWidth="140"/>
+                    <Label x:Name="lbl_totalFees" MinWidth="140"  FontWeight="Normal"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        
+
+        <!-- Calculate savings-button -->
         <Button x:Name="btn_calculateSavings" Content="Calculate savings" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30"  Width="110" Margin="0,0,10,10" Click="btn_CalculateSavings_Click"/>
 
-        <GroupBox Header="BMR Calculator" Grid.Row="3" Grid.Column="1" Width="460" Margin="0,0,15,0">
+        <!-- BMR calculator groupbox -->
+        <GroupBox Grid.Row="3" Grid.Column="1" Width="460" Margin="0,0,15,0">
+            <GroupBox.Header>
+                <TextBlock FontWeight="Bold">BMR Calculator</TextBlock>
+            </GroupBox.Header>
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <GroupBox Header="Gender" Margin="10" Width="170">
@@ -154,6 +171,7 @@
             </StackPanel>
         </GroupBox>
 
-        <ListBox x:Name="lbx_BMR_results" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Width="430" FontFamily="Cascadia Code" />
+        <!-- BMR output listbox -->
+        <ListBox x:Name="lbx_BMR_results" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Width="430" HorizontalAlignment="Left" FontFamily="Cascadia Code" />
     </Grid>
 </Window>
